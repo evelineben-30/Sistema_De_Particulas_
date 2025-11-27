@@ -8,7 +8,7 @@ class Particula {
     this.tVida = int(random(100, 300));
     this.tVidaInicial = this.tVida;
     this.estaMuerta = false;
-    this.diam = random(20);
+    this.diam = random(20, 50);
 
     this.velAng = random(-0.1, 0.1);
 
@@ -40,7 +40,7 @@ class Particula {
     
     fill(this.c);
     noStroke();
-    ellipse(this.pos.x, this.pos.y, 10, 10);
+    ellipse(this.pos.x, this.pos.y, 22, 22);
 
     this.diamF = map(this.tVida, this.tVidaInicial, 0, this.diam, 0);
 

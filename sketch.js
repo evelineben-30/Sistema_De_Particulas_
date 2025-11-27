@@ -5,38 +5,60 @@ function setup()
 
 }
 function draw()
-    { background(50, 10, 0, 100);
+    { background(40, 0, 60, 45);
 
-for (let i = 0; i < sp.length - 1; i++) {
-  let p1 = sp[i];
-  let p2 = sp[i + 1];
+  push();
+    drawingContext.shadowBlur = 25;     
+    drawingContext.shadowColor = "rgba(80, 220, 255, 0.5)";
+    pop();
+    
+    // ahora sí viene tu for ORIGINAL
+    for (let i = 0; i < sp.length - 1; i++) {
+        let p1 = sp[i];
+        let p2 = sp[i + 1];
 
   let d = dist(p1.pos.x, p1.pos.y, p2.pos.x, p2.pos.y);
-
-  // Solo conectar cuando están relativamente cerca
   if (d > 150) continue;
 
-  stroke(150, 150, 255, 40);   // más suave
-  strokeWeight(2.6);           // línea fina pero visible
-  noFill();
+  // Colores pastel estilo acuarela
+  let baseR = 200 + sin(i * 0.4) * 40;
+  let baseG = 150 + cos(i * 0.3) * 40;
+  let baseB = 255;
 
-  // punto medio
-  let mx = (p1.pos.x + p2.pos.x) * 0.5;
-  let my = (p1.pos.y + p2.pos.y) * 0.5;
+  // puntos medios
+  let cx = (p1.pos.x + p2.pos.x) * 0.5;
+  let cy = (p1.pos.y + p2.pos.y) * 0.5;
 
-  // ondulación más amplia pero elegante
-  let wave = sin(frameCount * 0.04 + i * 0.2) * 12;
-  mx += wave;
-  my -= wave * 0.5;
+  // ondulación acuarelada
+  let wave = sin(frameCount * 0.03 + i * 0.2) * 20;
+  cx += wave * 1.3;
+  cy += wave * 0.6;
 
-  beginShape();
-  curveVertex(p1.pos.x, p1.pos.y);
-  curveVertex(p1.pos.x, p1.pos.y);
-  curveVertex(mx, my);
-  curveVertex(p2.pos.x, p2.pos.y);
-  curveVertex(p2.pos.x, p2.pos.y);
-  endShape();
+  // --- ACUARELA: Dibujar múltiples pasadas con diferentes opacidades ---
+  for (let k = 0; k < 4; k++) {
+    let alpha = 12 + k * 5;   // capas suaves
+    let thickness = 1 + k * 0.8;
+
+    stroke(baseR, baseG, baseB, alpha);
+    strokeWeight(thickness);
+    noFill();
+
+    beginShape();
+    curveVertex(p1.pos.x, p1.pos.y);
+    curveVertex(p1.pos.x, p1.pos.y);
+
+    // variaciones ligeras de los puntos para textura acuarela
+    curveVertex(
+      cx + sin(k * 1.5 + i * 0.2) * 6,
+      cy + cos(k * 1.2 + i * 0.3) * 6
+    );
+
+    curveVertex(p2.pos.x, p2.pos.y);
+    curveVertex(p2.pos.x, p2.pos.y);
+    endShape();
+  }
 }
+
 
     
     for (const [index, particula] of sp.entries())
