@@ -40,7 +40,7 @@ class Particula {
     
     fill(this.c);
     noStroke();
-    ellipse(this.pos.x, this.pos.y, 22, 22);
+    ellipse(this.pos.x, this.pos.y, 25, 25);
 
     this.diamF = map(this.tVida, this.tVidaInicial, 0, this.diam, 0);
 
